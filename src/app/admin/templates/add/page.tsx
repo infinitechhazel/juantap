@@ -10,7 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, Shuffle } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 import { useRouter } from "next/navigation"
 import { MinimalClean } from "@/components/template-previews/minimal-clean-template"
@@ -42,7 +42,7 @@ const defaultTemplate: TemplateData = {
   is_popular: false,
   is_new: false,
   downloads: 0,
-  connectStyle: "list",
+  connectStyle: "grid",
   socialStyle: "default",
 }
 
@@ -59,6 +59,15 @@ export default function AddTemplatePage() {
   const [newTag, setNewTag] = useState("")
   const [saving, setSaving] = useState(false)
   const router = useRouter()
+
+  const getRandomColor = () => {
+    const letters = "0123456789ABCDEF"
+    let color = "#"
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)]
+    }
+    return color
+  }
 
   const formatPrice = (value: number | string) => {
     if (!value) return "₱0.00"
@@ -349,71 +358,27 @@ export default function AddTemplatePage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="primary">Primary Color</Label>
-                    <div className="flex gap-2">
-                      <Input
-                        id="primary"
-                        type="color"
-                        value={template.colors.primary}
-                        onChange={(e) => updateColors("primary", e.target.value)}
-                        className="w-16 h-10 p-1"
-                      />
-                      <Input value={template.colors.primary} onChange={(e) => updateColors("primary", e.target.value)} placeholder="#1f2937" />
+                  {(["primary", "secondary", "accent", "background", "text"] as (keyof typeof template.colors)[]).map((colorKey) => (
+                    <div key={colorKey}>
+                      <Label htmlFor={colorKey}>{colorKey.charAt(0).toUpperCase() + colorKey.slice(1)} Color</Label>
+                      <div className="flex gap-2 items-center">
+                        <Input
+                          id={colorKey}
+                          type="color"
+                          value={template.colors[colorKey]}
+                          onChange={(e) => updateColors(colorKey, e.target.value)}
+                          className="w-16 h-10 p-1"
+                        />
+                        <Input value={template.colors[colorKey]} onChange={(e) => updateColors(colorKey, e.target.value)} placeholder="#000000" />
+                        <button
+                          type="button"
+                          onClick={() => updateColors(colorKey, getRandomColor())}
+                        >
+                          <Shuffle className="w-4 h-4"/>
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <Label htmlFor="secondary">Secondary Color</Label>
-                    <div className="flex gap-2">
-                      <Input
-                        id="secondary"
-                        type="color"
-                        value={template.colors.secondary}
-                        onChange={(e) => updateColors("secondary", e.target.value)}
-                        className="w-16 h-10 p-1"
-                      />
-                      <Input value={template.colors.secondary} onChange={(e) => updateColors("secondary", e.target.value)} placeholder="#6b7280" />
-                    </div>
-                  </div>
-                  <div>
-                    <Label htmlFor="accent">Accent Color</Label>
-                    <div className="flex gap-2">
-                      <Input
-                        id="accent"
-                        type="color"
-                        value={template.colors.accent}
-                        onChange={(e) => updateColors("accent", e.target.value)}
-                        className="w-16 h-10 p-1"
-                      />
-                      <Input value={template.colors.accent} onChange={(e) => updateColors("accent", e.target.value)} placeholder="#3b82f6" />
-                    </div>
-                  </div>
-                  <div>
-                    <Label htmlFor="background">Background Color</Label>
-                    <div className="flex gap-2">
-                      <Input
-                        id="background"
-                        type="color"
-                        value={template.colors.background}
-                        onChange={(e) => updateColors("background", e.target.value)}
-                        className="w-16 h-10 p-1"
-                      />
-                      <Input value={template.colors.background} onChange={(e) => updateColors("background", e.target.value)} placeholder="#ffffff" />
-                    </div>
-                  </div>
-                  <div>
-                    <Label htmlFor="text">Text Color</Label>
-                    <div className="flex gap-2">
-                      <Input
-                        id="text"
-                        type="color"
-                        value={template.colors.text}
-                        onChange={(e) => updateColors("text", e.target.value)}
-                        className="w-16 h-10 p-1"
-                      />
-                      <Input value={template.colors.text} onChange={(e) => updateColors("text", e.target.value)} placeholder="#111827" />
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>
@@ -566,9 +531,6 @@ export default function AddTemplatePage() {
                   </div>
                   <div>
                     <strong>Layout:</strong> {template.layout}
-                  </div>
-                  <div>
-                    <strong>Social Style:</strong> {template.socialStyle}
                   </div>
                   <div>
                     <strong>Connect Style:</strong> {template.connectStyle}

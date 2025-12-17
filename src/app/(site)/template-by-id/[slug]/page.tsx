@@ -199,7 +199,7 @@ export default function TemplatePage({ params }: Props) {
 
         {/* Main content */}
         <div className="flex flex-col lg:flex-row gap-6 p-6 relative z-10">
-          <main className="flex-1">
+          <main className="flex-1 mx-auto">
             <PreviewRenderer template={template} user={user} slug={slug} />
             <div className="container mx-auto px-4 py-10">
               <TemplatePreviewContent template={template} />

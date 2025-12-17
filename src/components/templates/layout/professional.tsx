@@ -133,7 +133,7 @@ END:VCARD
         <div className="relative flex flex-col items-center pt-8 px-4 sm:px-6">
           <div className="w-48 h-64 sm:w-56 sm:h-72 rounded-3xl overflow-hidden bg-muted shadow-xl mb-6">
             {user?.avatar_url && !avatarError ? (
-              <img src={avatarUrl || ""} alt="User avatar" className="w-full h-full object-cover object-top" onError={() => setAvatarError(true)} />
+              <img src={avatarUrl || ""} alt="User avatar" className="w-full h-full object-cover object-center" onError={() => setAvatarError(true)} />
             ) : (
               <div className="flex items-center justify-center w-full h-full bg-muted">
                 <UserIcon size={80} className="text-muted-foreground" />

@@ -60,8 +60,15 @@ export default function PublicProfilePage() {
   if (!templateData) return notFound()
 
   return (
-    <main className="flex-1 flex items-center justify-center min-h-screen">
-      {templateData && userData && <PreviewRenderer template={templateData} user={userData} slug={username} />}
+    <main
+      className="flex-1 flex items-center justify-center min-h-screen px-4"
+      style={{
+        background: `${templateData?.colors?.primary}15`,
+      }}
+    >
+      <div className="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-2/5">
+        {templateData && userData && <PreviewRenderer template={templateData} user={userData} slug={username} />}
+      </div>
     </main>
   )
 }

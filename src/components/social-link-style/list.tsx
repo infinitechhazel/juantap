@@ -42,9 +42,9 @@ export const ListSocialLinks: React.FC<ListSocialLinksProps> = ({ user, template
   return (
     <div className="px-6 pb-6">
       <h2
-        className="text-sm font-semibold uppercase mb-3"
+        className="text-sm font-semibold uppercase mb-3 tracking-wide text-foreground"
         style={{
-          color: template?.colors?.secondary,
+          color: template?.colors?.text,
           fontFamily: template?.fonts?.heading,
         }}
       >
@@ -62,14 +62,14 @@ export const ListSocialLinks: React.FC<ListSocialLinksProps> = ({ user, template
               href={link.url}
               target="_blank"
               rel="noreferrer"
-              className={cn("flex items-center gap-2 rounded-lg p-2 text-sm hover:opacity-80 transition")}
+              className={cn("flex items-center gap-2 rounded-lg p-2 py-3 text-sm hover:opacity-80 transition")}
               style={{
                 backgroundColor: `${template?.colors?.accent}15`,
                 color: template?.colors?.text,
                 fontFamily: template?.fonts?.body,
               }}
             >
-              <span style={{ color: template?.colors?.accent }}>{icon}</span>
+              <span style={{ color: template?.colors?.secondary }}>{icon}</span>
               <span>{link.username}</span>
             </a>
           )

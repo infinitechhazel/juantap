@@ -10,7 +10,7 @@ interface SocialLink {
   isVisible?: boolean
 }
 
-interface SocialLinksProps {
+interface ListSocialLinksProps {
   user: {
     profile?: {
       socialLinks?: SocialLink[]
@@ -18,9 +18,10 @@ interface SocialLinksProps {
   }
   template: {
     fonts: { heading?: string; body?: string }
-    colors: { text: string; background: string }
+    colors: { text: string; secondary: string; accent: string }
   }
 }
+
 const getBrandColor = (platformKey: string) => {
   const lowerPlatform = platformKey.toLowerCase().replace(/\s+/g, "")
   const colorMap: Record<string, string> = {
@@ -119,7 +120,7 @@ const getSocialIconWhite = (platformKey: string) => {
   return iconMap[lowerPlatform] || <Globe size={24} color="white" />
 }
 
-export const GridSocialLinks: React.FC<SocialLinksProps> = ({ user, template }) => {
+export const GridSocialLinks: React.FC<ListSocialLinksProps> = ({ user, template,}) => {
   const links = user?.profile?.socialLinks?.filter((link) => link.isVisible)
 
   if (!links || links.length === 0) return null
@@ -130,7 +131,7 @@ export const GridSocialLinks: React.FC<SocialLinksProps> = ({ user, template }) 
         className={cn(fontClassMap[template?.fonts?.heading || ""], "text-sm font-semibold uppercase mb-3 tracking-wide text-foreground")}
         style={{
           fontFamily: template?.fonts?.heading,
-          color: template.colors.text,
+          color: template?.colors?.text,
         }}
       >
         Connect with me

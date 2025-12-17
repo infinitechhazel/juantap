@@ -138,6 +138,21 @@ export default function EditTemplatePage() {
     })
   }
 
+  const updateFonts = (fontKey: keyof TemplateData["fonts"], value: string) => {
+    setTemplate((prev) => {
+      if (!prev) return prev
+
+      return {
+        ...prev,
+        fonts: {
+          ...prev.fonts,
+          [fontKey]: value,
+        },
+        updated_at: new Date().toISOString(),
+      }
+    })
+  }
+
   return (
     <div className="p-6">
       <div className="mb-8">
@@ -242,6 +257,47 @@ export default function EditTemplatePage() {
                   />
                 </div>
               ))}
+            </CardContent>
+          </Card>
+
+          {/* Fonts */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Typography</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="headingFont">Heading Font</Label>
+                  <Select value={template.fonts.heading} onValueChange={(value) => updateFonts("heading", value)}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Inter">Inter</SelectItem>
+                      <SelectItem value="Poppins">Poppins</SelectItem>
+                      <SelectItem value="Roboto">Roboto</SelectItem>
+                      <SelectItem value="Playfair Display">Playfair Display</SelectItem>
+                      <SelectItem value="Merriweather">Merriweather</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label htmlFor="bodyFont">Body Font</Label>
+                  <Select value={template.fonts.body} onValueChange={(value) => updateFonts("body", value)}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Inter">Inter</SelectItem>
+                      <SelectItem value="Open Sans">Open Sans</SelectItem>
+                      <SelectItem value="Lato">Lato</SelectItem>
+                      <SelectItem value="Source Sans Pro">Source Sans Pro</SelectItem>
+                      <SelectItem value="Nunito">Nunito</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
             </CardContent>
           </Card>
 

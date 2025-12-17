@@ -114,7 +114,7 @@ END:VCARD
   }
 
   return (
-    <div className="justify-center p-6" style={{ backgroundColor: "transparent" }}>
+    <div className="flex justify-center px-4 py-6 sm:px-6" style={{ backgroundColor: "transparent" }}>
       <div
         className="w-full max-w-lg shadow-lg rounded-2xl overflow-hidden flex flex-col"
         style={{
@@ -124,7 +124,7 @@ END:VCARD
       >
         {/* Banner */}
         <div
-          className="w-full h-32"
+          className="w-full h-40"
           style={{
             background: `linear-gradient(135deg, ${template?.colors?.accent}, ${template?.colors?.primary})`,
           }}
@@ -132,7 +132,7 @@ END:VCARD
 
         {/* Avatar & Bio */}
         <div className="relative flex flex-col items-center mt-6 px-6">
-          <div className="w-24 h-24 rounded-full border-4 border-white shadow-lg overflow-hidden bg-white/20 -mt-12">
+          <div className="w-48 h-48 rounded-full border-4 border-white shadow-lg overflow-hidden bg-white/20 -mt-25">
             {user?.avatar_url && !avatarError ? (
               <img src={user.avatar_url} alt={user.display_name} className="w-full h-full object-cover" onError={() => setAvatarError(true)} />
             ) : (
@@ -170,79 +170,143 @@ END:VCARD
             <h2
               className="text-sm font-semibold uppercase"
               style={{
-                color: template?.colors?.secondary,
+                color: template?.colors?.text,
                 fontFamily: template?.fonts?.heading,
               }}
             >
               Contact
             </h2>
 
-            {/* Email */}
-            {user.email && (
-              <div
-                className="flex justify-between items-center rounded-lg p-3 text-sm"
-                style={{
-                  backgroundColor: `${template?.colors?.primary}10`,
-                  fontFamily: template?.fonts?.body,
-                }}
-              >
-                <div className="flex items-center gap-2" style={{ color: template?.colors?.text }}>
-                  <Mail size={16} style={{ color: template?.colors?.accent }} /> {user.email}
-                </div>
-                <button
-                  className="hover:opacity-70"
-                  style={{ color: template?.colors?.secondary }}
-                  onClick={() => navigator.clipboard.writeText(user.email!)}
+            <div className="grid grid-cols-1 gap-4">
+              {/* Email */}
+              {user.email && (
+                <div
+                  className="flex justify-between items-center rounded-lg p-3 text-sm md:text-base"
+                  style={{
+                    backgroundColor: `${template?.colors?.primary}10`,
+                    fontFamily: template?.fonts?.body,
+                    color: template?.colors?.text,
+                  }}
                 >
-                  <Copy size={16} />
-                </button>
-              </div>
-            )}
+                  <a
+                    href={`mailto:${user.email}`}
+                    className="flex items-center gap-2 flex-1 hover:opacity-80 truncate"
+                    style={{ color: template?.colors?.text }}
+                  >
+                    <Mail size={16} style={{ color: template?.colors?.secondary }} />
+                    <span className="truncate">{user.email}</span>
+                  </a>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      navigator.clipboard.writeText(user.email!)
+                    }}
+                    className="hover:opacity-70 ml-2"
+                    style={{ color: template?.colors?.secondary }}
+                  >
+                    <Copy size={16} />
+                  </button>
+                </div>
+              )}
 
-            {/* Phone */}
-            {user?.profile?.phone && (
-              <div
-                className="flex items-center gap-2 rounded-lg p-3 text-sm"
-                style={{
-                  backgroundColor: `${template?.colors?.primary}10`,
-                  color: template?.colors?.text,
-                  fontFamily: template?.fonts?.body,
-                }}
-              >
-                <Phone size={16} style={{ color: template?.colors?.accent }} /> {user?.profile?.phone}
-              </div>
-            )}
+              {/* Phone */}
+              {user?.profile?.phone && (
+                <div
+                  className="flex justify-between items-center rounded-lg p-3 text-sm md:text-base"
+                  style={{
+                    backgroundColor: `${template?.colors?.primary}10`,
+                    fontFamily: template?.fonts?.body,
+                    color: template?.colors?.text,
+                  }}
+                >
+                  <a
+                    href={`tel:${user.profile.phone}`}
+                    className="flex items-center gap-2 flex-1 hover:opacity-80 truncate"
+                    style={{ color: template?.colors?.text }}
+                  >
+                    <Phone size={16} style={{ color: template?.colors?.secondary }} />
+                    <span className="truncate">{user.profile.phone}</span>
+                  </a>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      navigator.clipboard.writeText(user?.profile?.phone!)
+                    }}
+                    className="hover:opacity-70 ml-2"
+                    style={{ color: template?.colors?.secondary }}
+                  >
+                    <Copy size={16} />
+                  </button>
+                </div>
+              )}
 
-            {/* Website */}
-            {user?.profile?.website && (
-              <a
-                href={user?.profile?.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 rounded-lg p-3 text-sm hover:opacity-80 transition"
-                style={{
-                  backgroundColor: `${template?.colors?.primary}10`,
-                  color: template?.colors?.text,
-                  fontFamily: template?.fonts?.body,
-                }}
-              >
-                <Globe size={16} style={{ color: template?.colors?.accent }} /> {user?.profile?.website}
-              </a>
-            )}
+              {/* Website */}
+              {user?.profile?.website && (
+                <div
+                  className="flex justify-between items-center rounded-lg p-3 text-sm md:text-base"
+                  style={{
+                    backgroundColor: `${template?.colors?.primary}10`,
+                    fontFamily: template?.fonts?.body,
+                    color: template?.colors?.text,
+                  }}
+                >
+                  <a
+                    href={user.profile.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 flex-1 hover:opacity-80 truncate"
+                    style={{ color: template?.colors?.text }}
+                  >
+                    <Globe size={16} style={{ color: template?.colors?.secondary }} />
+                    <span className="truncate">{user.profile.website}</span>
+                  </a>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      navigator.clipboard.writeText(user?.profile?.website!)
+                    }}
+                    className="hover:opacity-70 ml-2"
+                    style={{ color: template?.colors?.secondary }}
+                  >
+                    <Copy size={16} />
+                  </button>
+                </div>
+              )}
 
-            {/* Location */}
-            {user?.profile?.location && (
-              <div
-                className="flex items-center gap-2 rounded-lg p-3 text-sm"
-                style={{
-                  backgroundColor: `${template?.colors?.primary}10`,
-                  color: template?.colors?.text,
-                  fontFamily: template?.fonts?.body,
-                }}
-              >
-                <MapPin size={16} style={{ color: template?.colors?.accent }} /> {user?.profile?.location}
-              </div>
-            )}
+              {/* Location */}
+              {user?.profile?.location && (
+                <div
+                  className="flex justify-between items-center rounded-lg p-3 text-sm md:text-base"
+                  style={{
+                    backgroundColor: `${template?.colors?.primary}10`,
+                    fontFamily: template?.fonts?.body,
+                    color: template?.colors?.text,
+                  }}
+                >
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(user.profile.location)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 flex-1 hover:opacity-80 truncate"
+                    style={{ color: template?.colors?.text }}
+                  >
+                    <MapPin size={16} style={{ color: template?.colors?.secondary }} className="flex-shrink-0 self-start mt-0.5" />
+
+                    <span className="truncate">{user.profile.location}</span>
+                  </a>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      navigator.clipboard.writeText(user?.profile?.location!)
+                    }}
+                    className="hover:opacity-70 ml-2"
+                    style={{ color: template?.colors?.secondary }}
+                  >
+                    <Copy size={16} />
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         )}
 
