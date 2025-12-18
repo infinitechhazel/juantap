@@ -64,7 +64,7 @@ export default function AdminTemplatesPage() {
       <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Templates Management</h1>
 
       <div className="flex justify-between items-center mb-6">
-        <Button className="flex items-center gap-2 bg-blue-600 text-white" onClick={routeToAdd}>
+        <Button className="flex items-center gap-2 bg-blue-600 text-white hover:bg-blue-700 hover:text-white" onClick={routeToAdd}>
           <Plus className="w-4 h-4" /> Add Template
         </Button>
       </div>
@@ -76,7 +76,7 @@ export default function AdminTemplatesPage() {
             setShowHidden(false)
             fetchTemplates(false)
           }}
-          className={`${!showHidden ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white" : "bg-gray-300 text-gray-600"}`}
+          className={`${!showHidden ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:bg-blue-700 hover:text-white" : "bg-gray-300 text-gray-600 hover:bg-gray-700 hover:text-white"}`}
         >
           Show Visible
         </Button>
@@ -86,7 +86,7 @@ export default function AdminTemplatesPage() {
             setShowHidden(true)
             fetchTemplates(true)
           }}
-          className={`${showHidden ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white" : "bg-gray-300 text-gray-600"}`}
+          className={`${showHidden ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:bg-blue-700 hover:text-white" : "bg-gray-300 text-gray-600 hover:bg-gray-700 hover:text-white"}`}
         >
           Show Hidden
         </Button>

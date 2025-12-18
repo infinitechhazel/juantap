@@ -1,12 +1,30 @@
 "use client";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+  const router = useRouter()
+
+  useEffect(() => {
+    
+    const userData = localStorage.getItem("user")
+    if (!userData) {
+   
+      router.push("/")
+      return
+    }
+
+    const user = JSON.parse(userData)
+
+    if (!user.is_admin) {
+      router.push("/")
+    }
+  }, [router])
 
   return (
     <div className="min-h-screen flex bg-gray-50 relative">

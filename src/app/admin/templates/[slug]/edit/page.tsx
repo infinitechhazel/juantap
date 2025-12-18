@@ -14,7 +14,6 @@ import { MinimalClean } from "@/components/template-previews/minimal-clean-templ
 import { toast } from "sonner"
 import { TemplateData } from "@/types/template"
 import { adminTemplatePlaceholder } from "@/lib/user-data"
-import { TemplateCard } from "@/components/templates/template-card-2"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import PreviewRenderer from "@/components/templates/PreviewRenderer"
 
@@ -193,7 +192,7 @@ export default function EditTemplatePage() {
               <CardTitle>Design Customization</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="category">Category</Label>
                   <Select

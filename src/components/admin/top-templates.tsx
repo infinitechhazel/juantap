@@ -36,8 +36,8 @@ export function TopTemplates() {
 
         let data = await res.json()
 
-        data = data.sort((a, b) => (b.unlocks ?? 0) - (a.unlocks ?? 0))
-
+        data = data.sort((a: any, b: any) => (b.unlocks ?? 0) - (a.unlocks ?? 0))
+        console.log(data)
         setTopTemplates(data)
         setCurrentPage(1)
       } catch (err) {
@@ -83,8 +83,8 @@ export function TopTemplates() {
                     <Badge
                       className={
                         template.category === "Premium"
-                          ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0"
-                          : "bg-purple-200/70 text-purple-900 border-purple-300/50"
+                          ? "capitalize bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0"
+                          : "capitalize bg-purple-200/70 text-purple-900 border-purple-300/50"
                       }
                     >
                       {template.category}

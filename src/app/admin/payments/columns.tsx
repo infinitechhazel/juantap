@@ -35,13 +35,7 @@ export const columns: ColumnDef<Payment>[] = [
         aria-label="Select all"
       />
     ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
+    cell: ({ row }) => <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label="Select row" />,
     enableSorting: false,
     enableHiding: false,
   },
@@ -149,11 +143,7 @@ export const columns: ColumnDef<Payment>[] = [
     header: "Receipt",
     cell: ({ row }) =>
       row.original.receipt_img ? (
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => window.open(`${IMAGE_URL}/${row.original.receipt_img}`, "_blank")}
-        >
+        <Button variant="ghost" size="sm" onClick={() => window.open(`${IMAGE_URL}/${row.original.receipt_img}`, "_blank")}>
           <Eye className="w-4 h-4" />
         </Button>
       ) : (
@@ -178,7 +168,7 @@ export const columns: ColumnDef<Payment>[] = [
           toast.success(action === "approve" ? "Payment approved successfully!" : "Payment disapproved successfully!")
 
           if ((table.options.meta as any)?.refreshData) {
-            (table.options.meta as any).refreshData()
+            ;(table.options.meta as any).refreshData()
           }
         } catch (error: unknown) {
           if (error instanceof Error) {
@@ -196,25 +186,17 @@ export const columns: ColumnDef<Payment>[] = [
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end" className="space-y-1">
             {payment.status !== "approved" && (
               <DropdownMenuItem asChild>
-                <Button
-                  size="sm"
-                  className="w-full bg-green-600 hover:bg-green-700 text-white"
-                  onClick={() => handleAction(payment.id, "approve")}
-                >
+                <Button size="sm" className="w-full bg-green-400 hover:bg-green-700 text-white" onClick={() => handleAction(payment.id, "approve")}>
                   Approve
                 </Button>
               </DropdownMenuItem>
             )}
             {payment.status !== "disapproved" && (
               <DropdownMenuItem asChild>
-                <Button
-                  size="sm"
-                  className="w-full bg-red-600 hover:bg-red-700 text-white"
-                  onClick={() => handleAction(payment.id, "disapprove")}
-                >
+                <Button size="sm" className="w-full bg-red-400 hover:bg-red-700 text-white" onClick={() => handleAction(payment.id, "disapprove")}>
                   Disapprove
                 </Button>
               </DropdownMenuItem>

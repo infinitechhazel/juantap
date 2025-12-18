@@ -109,11 +109,11 @@ export default function EditProfilePage() {
         setProfile((prev: Profile) => ({ ...prev, ...data }))
         toast.success("Profile saved!")
 
-        // ✅ Update cached user in localStorage so Header can read the latest info
+        // Update cached user in localStorage so Header can read the latest info
         localStorage.setItem("user", JSON.stringify(data))
 
-        // ✅ Option 1: Soft reload everything (including Header)
-        //window.location.reload()
+        // Soft reload everything (including Header)
+        window.location.reload()
       } else if (res.status === 422) {
         const err = await res.json()
         if (err.errors?.username) {
