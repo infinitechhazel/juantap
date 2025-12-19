@@ -319,7 +319,7 @@ export default function EditProfilePage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid md:grid-cols-2 gap-4">
-                  <div>
+                  <div className="space-y-1">
                     <Label htmlFor="Name">First Name</Label>
                     <Input
                       id="firstName"
@@ -328,7 +328,7 @@ export default function EditProfilePage() {
                       placeholder="Enter your first name"
                     />
                   </div>
-                  <div>
+                  <div className="space-y-1">
                     <Label htmlFor="lastname">Last Name</Label>
                     <Input
                       id="lastname"
@@ -339,7 +339,7 @@ export default function EditProfilePage() {
                   </div>
                 </div>
 
-                <div>
+                <div className="space-y-1">
                   <Label htmlFor="displayName">Display Name</Label>
                   <Input
                     id="displayName"
@@ -349,7 +349,7 @@ export default function EditProfilePage() {
                   />
                 </div>
 
-                <div>
+                <div className="space-y-1">
                   <Label htmlFor="username">Username</Label>
                   <div className="flex">
                     <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
@@ -375,7 +375,7 @@ export default function EditProfilePage() {
                   {usernameError && <p className="text-red-500 text-sm mt-1">{usernameError}</p>}
                 </div>
 
-                <div>
+                <div className="space-y-1">
                   <Label htmlFor="bio">Bio</Label>
                   <Textarea
                     id="bio"
@@ -399,7 +399,7 @@ export default function EditProfilePage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid md:grid-cols-2 gap-4">
-                  <div>
+                  <div className="space-y-1">
                     <Label htmlFor="email" className="flex items-center gap-2">
                       <Mail className="w-4 h-4" />
                       Email
@@ -413,7 +413,7 @@ export default function EditProfilePage() {
                       className="bg-gray-100 text-gray-500 cursor-not-allowed"
                     />
                   </div>
-                  <div>
+                  <div className="space-y-1">
                     <Label htmlFor="phone" className="flex items-center gap-2">
                       <Phone className="w-4 h-4" />
                       Phone
@@ -433,7 +433,7 @@ export default function EditProfilePage() {
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-4">
-                  <div>
+                  <div className="space-y-1">
                     <Label htmlFor="website" className="flex items-center gap-2">
                       <Globe className="w-4 h-4" />
                       Website
@@ -445,7 +445,7 @@ export default function EditProfilePage() {
                       placeholder="https://yourwebsite.com"
                     />
                   </div>
-                  <div>
+                  <div className="space-y-1">
                     <Label htmlFor="location" className="flex items-center gap-2">
                       <MapPin className="w-4 h-4" />
                       Location
@@ -493,7 +493,7 @@ export default function EditProfilePage() {
                   return (
                     <div key={index} className="mb-4 border p-4 rounded-md space-y-2 relative">
                       <div className="grid md:grid-cols-2 gap-4">
-                        <div>
+                        <div className="space-y-1">
                           <Label>Platform</Label>
                           <Input
                             value={link.platform}
@@ -517,7 +517,7 @@ export default function EditProfilePage() {
                             placeholder="e.g., Instagram, WhatsApp, Viber"
                           />
                         </div>
-                        <div>
+                        <div className="space-y-1">
                           <Label>URL</Label>
                           <Input
                             value={link.url}
@@ -532,7 +532,7 @@ export default function EditProfilePage() {
                           />
                         </div>
                         <div className="col-span-2">
-                          <Label>{isMessagingApp ? "Contact Number" : "Display Name"}</Label>
+                          <Label className="space-y-1">{isMessagingApp ? "Contact Number" : "Display Name"}</Label>
                           <Input
                             value={link.display_name}
                             onChange={(e) => {
