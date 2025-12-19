@@ -1,16 +1,25 @@
 "use client"
-
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Save, User, Globe, MapPin, Phone, Mail, Upload, Plus, ArrowLeft } from "lucide-react"
+import { Save, User, Globe, MapPin, Phone, Mail, Upload, Plus, ArrowLeft, X } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState, useRef } from "react"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 
 interface Profile {
   name: string
@@ -49,6 +58,11 @@ export default function EditProfilePage() {
   const [isCheckingUsername, setIsCheckingUsername] = useState(false)
   const [usernameError, setUsernameError] = useState<string | null>(null)
   const [currentUser, setCurrentUser] = useState<User | null>(null)
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+  const [socialLinkToDelete, setSocialLinkToDelete] = useState<number | null>(null)
+  const [avatarFile, setAvatarFile] = useState<File | null>(null)
+  const [previewURL, setPreviewURL] = useState<string | null>(null)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
   const [profile, setProfile] = useState<Profile>({
     name: "",
     email: "",
@@ -134,6 +148,31 @@ export default function EditProfilePage() {
     }
   }
 
+  const handleDeleteSocial = async () => {
+    const token = localStorage.getItem("token")
+    if (!token) return
+
+    if (!socialLinkToDelete) return
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/profile/social-links/${socialLinkToDelete}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      })
+
+      if (!res.ok) throw new Error("Failed to delete")
+
+      setSocialLinks((prev) => prev.filter((link) => link.id !== socialLinkToDelete))
+      setDeleteModalOpen(false)
+      setSocialLinkToDelete(null)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   useEffect(() => {
     const fetchProfile = async () => {
       const token = localStorage.getItem("token")
@@ -215,11 +254,6 @@ export default function EditProfilePage() {
     const timeout = setTimeout(checkUsername, 500)
     return () => clearTimeout(timeout)
   }, [profile.username, currentUser?.username])
-
-  const [avatarFile, setAvatarFile] = useState<File | null>(null)
-  const [previewURL, setPreviewURL] = useState<string | null>(null)
-
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
 
   useEffect(() => {
     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null
@@ -492,7 +526,22 @@ export default function EditProfilePage() {
 
                   return (
                     <div key={index} className="mb-4 border p-4 rounded-md space-y-2 relative">
-                      <div className="grid md:grid-cols-2 gap-4">
+                      <button
+                        className="absolute top-3 right-4"
+                        onClick={() => {
+                          if (link.id === null) {
+                            setSocialLinks((prev) => prev.filter((_, i) => i !== index)) //no confirmation if null id
+                            return
+                          }
+
+                          setSocialLinkToDelete(link.id)
+                          setDeleteModalOpen(true)
+                        }}
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                      <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* Platform */}
                         <div className="space-y-1">
                           <Label>Platform</Label>
                           <Input
@@ -517,6 +566,8 @@ export default function EditProfilePage() {
                             placeholder="e.g., Instagram, WhatsApp, Viber"
                           />
                         </div>
+
+                        {/* URL */}
                         <div className="space-y-1">
                           <Label>URL</Label>
                           <Input
@@ -531,8 +582,10 @@ export default function EditProfilePage() {
                             className={isMessagingApp ? "bg-gray-100 cursor-not-allowed" : ""}
                           />
                         </div>
-                        <div className="col-span-2">
-                          <Label className="space-y-1">{isMessagingApp ? "Contact Number" : "Display Name"}</Label>
+
+                        {/* Display Name / Contact Number */}
+                        <div className="space-y-1 md:col-span-2">
+                          <Label>{isMessagingApp ? "Contact Number" : "Display Name"}</Label>
                           <Input
                             value={link.display_name}
                             onChange={(e) => {
@@ -617,6 +670,25 @@ export default function EditProfilePage() {
           </div>
         </div>
       </main>
+
+      {/* Delete Social Link Confirmation Modal */}
+      <AlertDialog open={deleteModalOpen} onOpenChange={setDeleteModalOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete social link</AlertDialogTitle>
+            <AlertDialogDescription>Are you sure you want to delete this social link? This action cannot be undone.</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-red-600 hover:bg-red-700"
+              onClick={handleDeleteSocial} 
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }
